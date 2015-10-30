@@ -48,19 +48,19 @@ else
       not_if { ::File.exist?("#{node['openvpn']['key_dir']}/#{u['id']}.crt") }
     end
 
-    %w(conf ovpn).each do |ext|
-      template "#{node['openvpn']['key_dir']}/#{u['id']}.#{ext}" do
-        source 'client.conf.erb'
-        variables(username: u['id'])
-      end
+    config_name = "#{u['id']}-#{node.chef_environment}"
+
+    template "#{node['openvpn']['key_dir']}/#{config_name}.ovpn" do
+      source 'client.conf.erb'
+      variables(username: u['id'])
     end
 
-    execute "create-openvpn-tar-#{u['id']}" do
+    execute "create-openvpn-tar-#{config_name}" do
       cwd node['openvpn']['key_dir']
       command <<-EOH
-        tar zcf #{u['id']}.tar.gz ca.crt #{u['id']}.crt #{u['id']}.key #{u['id']}.conf #{u['id']}.ovpn
+        tar zcf #{config_name}.tar.gz ca.crt #{u['id']}.crt #{u['id']}.key #{config_name}.ovpn
       EOH
-      not_if { ::File.exist?("#{node['openvpn']['key_dir']}/#{u['id']}.tar.gz") }
+      not_if { ::File.exist?("#{node['openvpn']['key_dir']}/#{config_name}.tar.gz") }
     end
   end
 end
