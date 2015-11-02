@@ -29,7 +29,7 @@ default['openvpn']['key']['province']  = 'CA'
 default['openvpn']['key']['city']      = 'San Francisco'
 default['openvpn']['key']['org']       = 'Fort Funston'
 default['openvpn']['key']['email']     = 'admin@foobar.com'
-default['openvpn']['key']['message_digest'] = 'sha1'
+default['openvpn']['key']['message_digest'] = 'sha256'
 
 # Cookbook attributes
 default['openvpn']['key_dir']         = '/etc/openvpn/keys'
@@ -70,6 +70,7 @@ default['openvpn']['config']['keepalive']       = '10 120'
 default['openvpn']['config']['log']             = '/var/log/openvpn.log'
 default['openvpn']['config']['push']            = nil
 default['openvpn']['config']['script-security'] = 2
+default['openvpn']['config']['up']              = '/etc/openvpn/server.up.sh'
 default['openvpn']['config']['persist-key']     = ''
 default['openvpn']['config']['persist-tun']     = ''
 default['openvpn']['config']['comp-lzo']        = ''
